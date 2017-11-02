@@ -1,8 +1,10 @@
 <template>
   <div class="app">
     <MainHeader/>
-    <Snippets/>
-    <Snippets/>
+    <Snippets v-for="snip in snippets"
+              v-bind:key="snip.id"
+              v-bind:title="snip.title"
+              v-bind:snippets="snip.snippets"/>
   </div>
 </template>
 
@@ -14,6 +16,28 @@ export default{
   components: {
     MainHeader,
     Snippets
+  },
+  data () {
+    return {
+      snippets: [
+        {
+          id: '1',
+          title: 'Título 1',
+          snippets: [
+            {
+              key: '33',
+              text: 'Isso é o texto 22222',
+              url: 'http://www.facebook.com.br'
+            },
+            {
+              key: '33',
+              text: 'Isso é o texto 111111',
+              url: 'http://www.facebook.com.br'
+            }
+          ]
+        }
+      ]
+    }
   }
 }
 </script>
