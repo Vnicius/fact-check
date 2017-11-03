@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="container">
-      <img id="logo" src="./assets/logo.png" alt="logo">
+      <img id="logo" src="./assets/logo.svg" alt="logo">
       <b-form-textarea id="textarea-claim"
                      v-model="claim"
                      placeholder="Exemplo: Foram construídas 25 escolas em 2016"
@@ -19,14 +19,14 @@
         alt=""
         class="loading">
     <Snippets v-for="snip in snippets"
-              v-bind:key="snip.id"
-              v-bind:title="snip.title"
+              v-bind:key="snip._id"
+              v-bind:title="snip.claim"
               v-bind:snippets="snip.snippets"/>
     <div v-if="full" class="container">
       <b-button class="btn-send" 
           variant="outline-success"
           @click="send">
-          Enviar
+          Enviar Avaliações
       </b-button>
     </div>          
     
@@ -77,12 +77,14 @@ export default{
 .app{
   text-align: center;
   padding: 20px;
+  padding-top: 0;
 }
 .container{
   text-align: center
 }
 #logo{
-  margin-bottom: 20px;
+  height: 300px;
+  width: 300px;
 }
 
 .btn-send{

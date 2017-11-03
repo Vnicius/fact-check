@@ -1,7 +1,7 @@
 [
     {
-      "id": "1",
-      "title": "Título 1",
+      "_id": "1",
+      "claim": "Título 1",
       "snippets": [
         {
           "id": "33",
@@ -20,8 +20,8 @@
       ]
     },
     {
-      "id": "1",
-      "title": "Esse título é muito grande, mas as frases também são",
+      "_id": "1",
+      "claim": "Esse título é muito grande, mas as frases também são",
       "snippets": [
         {
           "id": "33",

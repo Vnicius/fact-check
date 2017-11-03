@@ -8,7 +8,7 @@ class Tagger:
         self.tagger = nlpnet.POSTagger("pos-pt", language="pt")
 
     def tag(self, text):
-        return self.tagger.tag(text)
+        return self.tagger.tag(text)[0]
 
 if __name__ == "__main__":
     import sys

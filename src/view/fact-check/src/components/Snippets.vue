@@ -17,12 +17,12 @@
                 <div :id="'vote-' + snippet.id" class="vote-container" :ref="'vote-'+ snippet.id">
                     <img v-bind:id="'correct-'+ snippet.id" 
                           class="like" 
-                          src="../assets/like.svg" 
+                          src="../assets/check.svg" 
                           alt="like"
                           @click="factTrue (snippet.id)">
                     <img v-bind:id="'incorrect-'+ snippet.id" 
                           class="deslike" 
-                          src="../assets/deslike.svg" 
+                          src="../assets/uncheck.svg" 
                           alt="like"
                           @click="factFalse (snippet.id)">
                 </div>
@@ -34,12 +34,6 @@
 
 <script>
 export default {
-  data () {
-    return {
-      dataTitle: this.title,
-      dataSnippets: this.snippets
-    }
-  },
   methods: {
     factTrue: function (id) {
       this.snippets.forEach(function (element) {
@@ -119,8 +113,8 @@ export default {
 }
 
 .like, .deslike{
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   margin: 5px;
   margin-left: 25px;
   margin-right: 25px;

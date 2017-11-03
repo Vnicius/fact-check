@@ -1,7 +1,10 @@
+#!/usr/bin/python3
+# -*- coding:utf-8 -*-
+
 from flask import Flask, request
 from flask_cors import CORS
 import json
-import time
+#import time
 
 app = Flask(__name__)
 CORS(app)
@@ -11,7 +14,7 @@ def get_snippets():
     #print (request.get_json()["text"])
     with open("teste.json") as js:
         #print(js.read())
-        time.sleep(1)
+        #time.sleep(1)
         return js.read()
 
 @app.route("/send", methods=['POST'])
