@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding:utf-8 -*-
+
 class Word:
     def __init__(self):
         self.palavra = ""

@@ -21,7 +21,8 @@
     <Snippets v-for="snip in snippets"
               v-bind:key="snip._id"
               v-bind:title="snip.claim"
-              v-bind:snippets="snip.snippets"/>
+              v-bind:snippets="snip.snippets"
+              v-bind:matches="snip.matches"/>
     <div v-if="full" class="container">
       <b-button class="btn-send" 
           variant="outline-success"
@@ -54,8 +55,9 @@ export default{
         this.snippets = []
         this.full = false
         this.wait = true
-        this.$http.post('http://localhost:5000/snippets', {text: this.claim}).then((response) => {
-          this.snippets = JSON.parse(response.bodyText)
+        this.$http.post('http://localhost:5000/snippets', {claim: this.claim}).then((response) => {
+          console.log(JSON.parse(response.bodyText))
+          this.snippets = JSON.parse(response.bodyText).response
           this.wait = false
           this.full = true
         })
