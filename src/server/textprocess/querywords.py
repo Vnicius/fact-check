@@ -3,60 +3,61 @@
 
 import requests
 import re
-from textprocess.word import Word as Word
 from bs4 import BeautifulSoup
+from textprocess.word import Word
+from textprocess.verb import Verb
+# from word import Word
+# from verb import Verb
 
-VERBO_REGEX = re.compile(r'.* vem do verbo (.*)\. .*')
+VERB_REGEX = re.compile(r'.* vem do verbo (.*)\. .*')
 
 class QueryWords:
 
     def __init__(self):
         self.site = 'https://www.dicio.com.br/'
         self.soup = None
-        self.__word = Word()
     
-    def query(self, palavra):
-        self.__word.palavra = palavra
+    def query(self, word):
+        query_word = word.word        
+
         try:
-            r = requests.get( self.site + palavra)
+            r = requests.get(self.site + query_word)
             self.soup = BeautifulSoup(r.text, "lxml")
         except:
-            return self.__word
+            return word
 
-        self.__get_sinonimos()
-        self.__get_infinitivo_verbo()
+        self.__get_synonyms(word)
+
+        if word.word_class == "V":
+            self.__get_infinitive_verbo(word)
         
-        ret = self.__word
-        self.__word = Word()
+        return word
 
-        return ret
+    def __get_infinitive_verbo(self, word):
 
-    def __get_infinitivo_verbo(self):
-
-        infinitivo = ""
+        infinitive = ""
         
         try:
-            texto_inf = self.soup.find("p", class_="significado intro-conjugacao").find("span").text
+            text_inf = self.soup.find("p", class_="significado intro-conjugacao").find("span").text
         except:
             return
         
-        if texto_inf:
-            infinitivo = VERBO_REGEX.findall(texto_inf)[0]
+        if text_inf:
+            infinitive = VERB_REGEX.findall(text_inf)[0]
 
-        self.__word.infinitivo = infinitivo
+        word.infinitive = infinitive
 
-    def __get_sinonimos(self):
-        sinonimos = []
+    def __get_synonyms(self, word):
+        synonyms = []
         try:
-            palavras = self.soup.find("p", class_="adicional sinonimos").find_all("a")
-
-            for palavra in palavras:
-                sinonimos.append(palavra.text)
+            words = self.soup.find("p", class_="adicional sinonimos").find_all("a")
+            for w in words:
+                synonyms.append(w.text)
 
         except AttributeError:
             return []
 
-        self.__word.sinonimos = sinonimos
+        word.synonyms = synonyms
 
 if __name__ == "__main__":
     import sys

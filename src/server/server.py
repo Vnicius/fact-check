@@ -4,7 +4,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import json
-from textprocess import Processor
+from textprocess import process
 #import time
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ CORS(app)
 def get_snippets():
     print (request.get_json()["claim"])
 
-    return Processor().process(request.get_json()["claim"])
+    return process(request.get_json()["claim"])
     # with open("teste.json") as js:
     #     #print(js.read())
     #     #time.sleep(1)

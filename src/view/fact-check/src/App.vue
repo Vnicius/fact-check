@@ -55,16 +55,19 @@ export default{
         this.snippets = []
         this.full = false
         this.wait = true
-        this.$http.post('http://localhost:5000/snippets', {claim: this.claim}).then((response) => {
+        this.$http.post('http://localhost:5000/snippets', {claim: this.claim}).then(response => {
           console.log(JSON.parse(response.bodyText))
           this.snippets = JSON.parse(response.bodyText).response
           this.wait = false
           this.full = true
+        }, response => {
+          this.wait = false
+          alert('ERRO')
         })
       }
     },
     send: function () {
-      this.$http.post('http://localhost:5000/send', this.snippets).then((response) => {
+      this.$http.post('http://localhost:5000/send', this.snippets).then(response => {
         if (response.bodyText) {
           alert('Enviado!')
         }

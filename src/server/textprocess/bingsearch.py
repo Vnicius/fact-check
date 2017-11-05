@@ -20,20 +20,26 @@ path = "/bing/v7.0/search"
 
 #term = "Microsoft Cognitive Services"
 
-def search(search):
+def search(term, quotes = True):
     "Performs a Bing Web search and returns the results."
+
+    term = "\"" + term + "\""
+    cont_matches = 0
+    snippets = []
 
     headers = {'Ocp-Apim-Subscription-Key': subscriptionKey}
     conn = http.client.HTTPSConnection(host)
-    query = urllib.parse.quote(search)
+    query = urllib.parse.quote(term)
     conn.request("GET", path + "?q=" + query, headers=headers)
     response = conn.getresponse()
-    results = json.loads(response.read().decode("utf8"))["webPages"]
-    cont_matches = results["totalEstimatedMatches"]
+    
+    try:
+        results = json.loads(response.read().decode("utf8"))["webPages"]
+        cont_matches = results["totalEstimatedMatches"]
+        snippets = form_snippets(results["value"])
+    except:
+        return search(term, False)
 
-    snippets = form_snippets(results["value"])
-
-    #print(snippets)
     return cont_matches, snippets
 
 def form_snippets(response):
