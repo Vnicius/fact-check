@@ -14,7 +14,7 @@ class SyntacticAnalyser:
         try:
             aux = self.words[self.current_index]
             self.current_index += 1
-            #print(aux)
+            # print(aux)
             return aux
         except:
             return ["EOF","EOF"]
@@ -25,6 +25,13 @@ class SyntacticAnalyser:
         '''
         self.current_index -= 1
         return self.words[self.current_index]
+
+    def __is_EOF(self):
+        if self.__next()[1] == "EOF":
+            return True
+        else:
+            self.__back()
+            return False
 
     def analysis(self, words):
         '''
@@ -46,6 +53,7 @@ class SyntacticAnalyser:
             if not self.pivot:
                 self.pivot = self.current_index
 
+            # print("MMMMMMMMMMMMMMMMM")
             return self.__NP()
 
         elif self.__ADVP():
@@ -54,7 +62,7 @@ class SyntacticAnalyser:
         return False
     
     def __NP(self):
-        #print("NP")
+        # print("NP")
         if self.__next()[1] in ["ART", "NUM"]:
             if self.__N_ln():
                 return True
@@ -86,7 +94,7 @@ class SyntacticAnalyser:
         return self.__N_ln()
     
     def __N_ln(self):
-        #print("N'")
+        # print("N'")
     
         if self.__next()[1] in ["N", "NPROP"]:
             if self.__N_lnln():
@@ -115,14 +123,11 @@ class SyntacticAnalyser:
             return False
 
     def __N_lnln(self):
-        #print("N''")
+        # print("N''")
 
-        if self.__next()[1] == "EOF":
+        if self.__is_EOF():
             return True
-        else:
-            self.__back()
-
-        if self.__N_ln():
+        elif self.__N_ln():
             return True
         elif self.__AP():
             return self.__N_lnln()
@@ -133,7 +138,7 @@ class SyntacticAnalyser:
         return True
 
     def __AP(self):
-        #print("AP")
+        # print("AP")
         if self.__ADJ_ln():
             if self.__ADVP():
                 return True
@@ -149,7 +154,7 @@ class SyntacticAnalyser:
         return False
     
     def __ADJ_ln(self):
-        #print("ADJ'")
+        # print("ADJ'")
         if self.__next()[1] == "ADJ":
             if self.__ADJ_lnln():
                 return True
@@ -168,15 +173,12 @@ class SyntacticAnalyser:
         return False
     
     def __ADJ_lnln(self):
-        #print("AP''")
+        # print("AP''")
 
-        if self.__next()[1] == "EOF":
+        if self.__is_EOF():
             return True
-        else:
-            self.__back()
 
-
-        if self.__ADVP():
+        elif self.__ADVP():
             return self.__ADJ_lnln()
         
         elif self.__PP():
@@ -185,7 +187,7 @@ class SyntacticAnalyser:
         return True
 
     def __PP(self):
-        #print("PP")
+        # print("PP")
         if "PREP" in self.__next()[1]:
             if self.__NP():
                 return True
@@ -199,7 +201,7 @@ class SyntacticAnalyser:
             return False
     
     def __VP(self):
-        #print("VP")
+        # print("VP")
         if self.__V_ln():
             if self.__PP():
                 return True
@@ -218,7 +220,7 @@ class SyntacticAnalyser:
             return False
     
     def __V_ln(self):
-        #print("VP'")
+        # print("VP'")
         if self.__ADVP():
             if self.__V_ln():
                 return self.__V_lnln()
@@ -232,43 +234,35 @@ class SyntacticAnalyser:
             elif self.__NP():
                 if self.__V_lnln():
                     return True
-                self.__back()
                 return False
 
             elif self.__PP():
                 if self.__V_lnln():
                     return True
-                self.__back()
                 return False
 
             elif self.__AP():
                 if self.__V_lnln():
                     return True
-                self.__back()
                 return False
 
             elif self.__ADVP():
                 if self.__V_lnln():
                     return True
-                self.__back()
                 return False
-            
-            self.__back()
+
             return False
         
         else:
-            self.__back()
             return False
 
     def __V_lnln(self):
-        #print("V''")
+        # print("V''")
 
-        if self.__next()[1] == "EOF":
+        if self.__is_EOF():
             return True
-        else:
-            self.__back()
 
-        if self.__NP():
+        elif self.__NP():
             return self.__V_lnln()
 
         elif self.__PP():
@@ -280,7 +274,7 @@ class SyntacticAnalyser:
         return True
 
     def __VB(self):
-        #print("VB")
+        # print("VB")
         if self.__next()[1] == "V":
             if self.__next()[1] != "PCP":
                 self.__back()
@@ -291,7 +285,7 @@ class SyntacticAnalyser:
             return False
 
     def __ADVP(self):
-        #print("ADVP")
+        # print("ADVP")
         if self.__ADV_ln():
             if self.__ADVP_ln():
                 return True
@@ -304,19 +298,17 @@ class SyntacticAnalyser:
             return False
     
     def __ADVP_ln(self):
-        #print("ADVP'")
-        if self.__next()[1] == "EOF":
+        # print("ADVP'")
+        if self.__is_EOF():
             return True
-        else:
-            self.__back()
 
-        if self.__ADV_ln():
+        elif self.__ADV_ln():
             return self.__ADVP_ln()
         
         return True
 
     def __ADV_ln(self):
-        #print("ADV'")
+        # print("ADV'")
         if self.__next()[1] == "ADV":
             if self.__ADV_lnln():
                 return True
@@ -328,14 +320,11 @@ class SyntacticAnalyser:
             return False
     
     def __ADV_lnln(self):
-        #print("ADV''")
-        if self.__next()[1] == "EOF":
+        # print("ADV''")
+        if self.__is_EOF():
             return True
-        else:
-            self.__back()
 
-
-        if self.__PP():
+        elif self.__PP():
             return self.__ADV_lnln()
 
         return True
@@ -344,4 +333,4 @@ if __name__ == "__main__":
     import sys
     from tagger import Tagger
 
-    #print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))
+    # print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))

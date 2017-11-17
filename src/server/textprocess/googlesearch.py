@@ -5,7 +5,7 @@ import os
 import requests
 import re
 from bs4 import BeautifulSoup
-from textprocess.snippet import Snippet
+from snippet import Snippet
 
 URL_REGEX = re.compile(r'/url\?q=(.*)&sa.*')
 
@@ -13,15 +13,14 @@ class GoogleSearch:
 
     def __init__(self):
         self.site = 'https://www.google.com.br/search?q='
-        self.auth = ""
-        with open(os.path.dirname(os.path.realpath(__file__))+"/google-auth.in") as auth:
-            self.auth = auth.read()
+        #self.mode = "&tbm=nws"
+        self.mode = "&sorce=lmns"
         self.soup = None
     
     def search(self, text):    
         snippets = []
         try:
-            r = requests.get(self.site + text.replace(" ","+") + self.auth)
+            r = requests.get(self.site + text.replace(" ","+") + self.mode)
             self.soup = BeautifulSoup(r.text, "lxml")
         except:
             return text
