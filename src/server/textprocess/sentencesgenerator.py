@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 
+import os
+
 from textprocess.tagger import Tagger
 from textprocess.word import Word
 from textprocess.verb import Verb
@@ -17,8 +19,43 @@ class SentenceGenerator():
         if start_claim[-1] == "\"":
             start_claim = start_claim[:-1]
 
-        result = self.__claim_set(start_claim)
-        return result
+        sentences = self.__divide_sentences(start_claim)
+        claim_sets = []
+        final_claim_set = []
+        claim = []
+
+        for sentence in sentences:
+            claim_sets.append(self.__claim_set(sentence))
+
+        for index,_ in enumerate(claim_sets[0]):
+            try:
+                for index_claim, _ in enumerate(claim_sets):
+                    claim.append(claim_sets[index_claim][index])
+                
+                final_claim_set.append(" ".join(claim))
+                claim = []
+            except IndexError:
+                break
+
+        return final_claim_set
+
+    def __divide_sentences(self, start_claim):
+        sentences = []
+        sentence = []
+        pronoms = self.__read_pronomes()
+        
+        for value in start_claim.split(" "):
+            sentence.append(value)
+
+            if "." in value:
+                if value.lower() not in pronoms:
+                    sentences.append(" ".join(sentence))
+                    sentence = []
+        
+        if sentence:
+            sentences.append(" ".join(sentence))
+        
+        return sentences
 
     def __array2sentence(self, array_words):
         result = ""
@@ -70,7 +107,17 @@ class SentenceGenerator():
 
         return words
     
+    def __read_pronomes(self):
+        with open(os.path.dirname(os.path.realpath(__file__))+"/pronomesTratamento.csv") as pron:
+            lines = pron.readlines()
+            pronoms = []
+
+            for line in lines:
+                pronoms.append(line.replace("\n",""))
+            
+            return pronoms
+    
 if __name__ == "__main__":
     import sys
 
-    #print(__claim_set(sys.argv[1]))
+    print(SentenceGenerator().generate_sentences(sys.argv[1]))

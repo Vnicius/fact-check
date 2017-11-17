@@ -5,7 +5,7 @@ import os
 import requests
 import re
 from bs4 import BeautifulSoup
-from snippet import Snippet
+from textprocess.snippet import Snippet
 
 URL_REGEX = re.compile(r'/url\?q=(.*)&sa.*')
 

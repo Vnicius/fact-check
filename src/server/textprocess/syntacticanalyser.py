@@ -12,10 +12,20 @@ class SyntacticAnalyser:
         Return the next token in the list
         '''
         try:
+            if self.current_index == len(self.words) - 1 \
+                and self.words[self.current_index][1] == "PU":
+                raise ValueError("PU")
+
             aux = self.words[self.current_index]
             self.current_index += 1
+
+            if aux[1] == "PU":
+                return self.__next()
+
             # print(aux)
+
             return aux
+
         except:
             return ["EOF","EOF"]
     
@@ -35,7 +45,7 @@ class SyntacticAnalyser:
 
     def analysis(self, words):
         '''
-        Star the analyse
+        Start the analyse
         '''
         self.pivot = 0
         self.current_index = 0
@@ -50,10 +60,13 @@ class SyntacticAnalyser:
             return self.__VP()
 
         elif self.__VP():
+            if self.current_index == len(self.words) \
+                or self.words[self.current_index][1] == "PU":
+                return True
+
             if not self.pivot:
                 self.pivot = self.current_index
 
-            # print("MMMMMMMMMMMMMMMMM")
             return self.__NP()
 
         elif self.__ADVP():
@@ -127,8 +140,10 @@ class SyntacticAnalyser:
 
         if self.__is_EOF():
             return True
+
         elif self.__N_ln():
             return True
+
         elif self.__AP():
             return self.__N_lnln()
 

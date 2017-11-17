@@ -1,4 +1,4 @@
 import sys
-from processor import process
+from textprocess import SentenceGenerator
 
-print(process(sys.argv[1]))
+print(SentenceGenerator().generate_sentences(sys.argv[1]))
