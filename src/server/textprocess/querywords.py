@@ -6,8 +6,6 @@ import re
 from bs4 import BeautifulSoup
 from textprocess.word import Word
 from textprocess.verb import Verb
-# from word import Word
-# from verb import Verb
 
 VERB_REGEX = re.compile(r'.* vem do verbo (.*)\. .*')
 
@@ -18,6 +16,9 @@ class QueryWords:
         self.soup = None
     
     def query(self, word):
+        '''
+        Return a object of Word with extra informations
+        '''
         query_word = word.word        
 
         try:

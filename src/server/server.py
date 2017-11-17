@@ -4,7 +4,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import json
-from textprocess import process
+from processor import process
 #import time
 
 app = Flask(__name__)

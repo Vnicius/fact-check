@@ -1,21 +1,22 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 
-import textprocess.bingsearch as bingsearch
-from textprocess.fact import Fact
-import textprocess.sentencesgenerator as sentencesgenerator
+from textprocess import bingsearch
+from textprocess import GoogleSearch
+from textprocess import Fact
+from textprocess import SentenceGenerator
 import json
 
 
 def process(claim):
-    sentences = sentencesgenerator.generator(claim)
+    sentences = SentenceGenerator().generate_sentences(claim)
     facts = []
     matches = 0
     snippets = []
     ret = "{\"response\":["
 
     for index, sentence in enumerate(sentences):
-        matches, snippets = bingsearch.search(sentence)
+        matches, snippets = GoogleSearch().search(sentence)
         facts.append(Fact(index + 1, sentence,
                             matches, snippets))
 

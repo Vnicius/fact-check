@@ -37,6 +37,8 @@ def search(term, quotes = True):
         results = json.loads(response.read().decode("utf8"))["webPages"]
         cont_matches = results["totalEstimatedMatches"]
         snippets = form_snippets(results["value"])
+        if len(snippets) > 3:
+            snippets = snippets[:3]
     except:
         return search(term, False)
 

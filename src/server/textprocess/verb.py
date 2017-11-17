@@ -2,7 +2,6 @@
 # -*- coding:utf8 -*-
 
 from textprocess.word import Word
-#from word import Word
 
 class Verb(Word):
     def __init__(self, word, word_class):

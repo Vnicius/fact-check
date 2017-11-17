@@ -100,4 +100,5 @@ ENV/
 # mypy
 .mypy_cache/
 
-src/server/text_process
+src/server/textprocess/auth.in
+src/server/textprocess/google-auth.in
