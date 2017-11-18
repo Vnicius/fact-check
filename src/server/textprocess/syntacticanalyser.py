@@ -2,6 +2,9 @@
 # -*- coding:utf-8 -*-
 
 class SyntacticAnalyser:
+    '''
+    Syntactical analyser for text in portuguese
+    '''
     def __init__(self):
         self.words = None
         self.current_index = 0
@@ -27,8 +30,8 @@ class SyntacticAnalyser:
             return aux
 
         except:
-            return ["EOF","EOF"]
-    
+            return ["EOF", "EOF"]
+
     def __back(self):
         '''
         Back one index
@@ -37,6 +40,9 @@ class SyntacticAnalyser:
         return self.words[self.current_index]
 
     def __is_EOF(self):
+        '''
+        Check if the setence is over
+        '''
         if self.__next()[1] == "EOF":
             return True
         else:
@@ -54,6 +60,12 @@ class SyntacticAnalyser:
         return ret
 
     def __S(self):
+        '''
+        S -> NP VP
+        S -> VP NP
+        S -> VP
+        S -> ADVP S
+        '''
         if self.__NP():
             if not self.pivot:
                 self.pivot = self.current_index
@@ -73,8 +85,16 @@ class SyntacticAnalyser:
             return self.__S()
 
         return False
-    
+
     def __NP(self):
+        '''
+        NP -> art N’
+        NP -> prosub N’
+        NP -> proadj N’
+        NP -> num N’
+        NP -> N’
+        NP -> proadj NP
+        '''
         # print("NP")
         if self.__next()[1] in ["ART", "NUM"]:
             if self.__N_ln():
@@ -89,26 +109,32 @@ class SyntacticAnalyser:
         if self.__next()[1] == "PROSUB":
             if self.__N_ln():
                 return True
+
             self.__back()
+            return False
         else:
             self.__back()
-        
+
         if self.__next()[1] == "PROADJ":
-            if self.__N_ln():
-               return True
-            elif self.__NP():
+            if self.__N_ln() or self.__NP():
                 return True
-            else:
-                self.__back()
-                return False
+
+            self.__back()
+            return False
         else:
             self.__back()
-        
+
         return self.__N_ln()
-    
+
     def __N_ln(self):
+        '''
+        N’ -> pro N’’
+        N’ -> n N’’
+        N’ -> nprop N’’
+        N’ -> AP N’ N’’
+        '''
         # print("N'")
-    
+
         if self.__next()[1] in ["N", "NPROP"]:
             if self.__N_lnln():
                 return True
@@ -126,16 +152,21 @@ class SyntacticAnalyser:
                 return False
         else:
             self.__back()
-        
+
         if self.__AP():
             if self.__N_ln():
                 return self.__N_lnln()
-            
+
             return False
         else:
             return False
 
     def __N_lnln(self):
+        '''
+        N’’ -> AP N’’
+        N’’ -> PP N’’
+        N’’ -> ɛ
+        '''
         # print("N''")
 
         if self.__is_EOF():
@@ -144,21 +175,22 @@ class SyntacticAnalyser:
         elif self.__N_ln():
             return True
 
-        elif self.__AP():
+        elif self.__AP() or self.__PP():
             return self.__N_lnln()
 
-        elif self.__PP():
-            return self.__N_lnln()
-        
         return True
 
     def __AP(self):
+        '''
+        AP -> ADJ’ ADVP
+        AP -> ADJ’ PP
+        AP -> ADJ’
+        AP -> ADVP ADJ’
+        '''
         # print("AP")
-        if self.__ADJ_ln():
-            if self.__ADVP():
-                return True
 
-            elif self.__PP():
+        if self.__ADJ_ln():
+            if self.__ADVP() or self.__PP():
                 return True
 
             return True
@@ -167,13 +199,18 @@ class SyntacticAnalyser:
             return self.__ADJ_ln()
 
         return False
-    
+
     def __ADJ_ln(self):
+        '''
+        ADJ’ -> adj ADJ’’
+        ADJ’ -> ADVP ADJ’ ADJ’’
+        '''
         # print("ADJ'")
+
         if self.__next()[1] == "ADJ":
             if self.__ADJ_lnln():
                 return True
-            
+
             self.__back()
             return False
         else:
@@ -183,30 +220,33 @@ class SyntacticAnalyser:
             if self.__ADJ_ln():
                 return self.__ADJ_lnln()
 
-            return False
-        
         return False
-    
+
     def __ADJ_lnln(self):
+        '''
+        ADJ’’ -> ADVP ADJ’’
+        ADJ’’ -> PP ADJ’’
+        ADJ’’ -> ɛ
+        '''
         # print("AP''")
 
         if self.__is_EOF():
             return True
 
-        elif self.__ADVP():
+        elif self.__ADVP() or self.__PP():
             return self.__ADJ_lnln()
-        
-        elif self.__PP():
-            return self.__ADJ_lnln()
-        
+
         return True
 
     def __PP(self):
+        '''
+        PP -> prep NP
+        PP -> prep ADVP
+        '''
         # print("PP")
+
         if "PREP" in self.__next()[1]:
-            if self.__NP():
-                return True
-            elif self.__ADVP():
+            if self.__NP() or self.__ADVP():
                 return True
 
             self.__back()
@@ -214,28 +254,39 @@ class SyntacticAnalyser:
         else:
             self.__back()
             return False
-    
+
     def __VP(self):
+        '''
+        VP -> V’
+        VP -> V’ PP
+        VP -> V’ ADVP
+        VP -> ADVP V’
+        '''
         # print("VP")
+
         if self.__V_ln():
-            if self.__PP():
-                return True
-            elif self.__ADVP():
-                return True
+            if self.__PP() or self.__ADVP():
+                pass
 
             return True
-            
+
         elif self.__ADVP():
-            if self.__V_ln():
-                return True
-            
-            return False
-        
+            return self.__V_ln()
+
         else:
             return False
-    
+
     def __V_ln(self):
-        # print("VP'")
+        '''
+        V’ -> ADVP V’ V’’
+        V’ -> VB V’’
+        V’ -> VB NP V’’
+        V’ -> VB PP V’’
+        V’ -> VB AP V'’
+        V’ -> VB ADVP V’’
+        '''
+        # print("V'")
+
         if self.__ADVP():
             if self.__V_ln():
                 return self.__V_lnln()
@@ -246,50 +297,42 @@ class SyntacticAnalyser:
             if self.__V_lnln():
                 return True
 
-            elif self.__NP():
-                if self.__V_lnln():
-                    return True
-                return False
+            elif self.__NP() or self.__PP() \
+                 or self.__AP() or self.__ADVP():
 
-            elif self.__PP():
-                if self.__V_lnln():
-                    return True
-                return False
-
-            elif self.__AP():
-                if self.__V_lnln():
-                    return True
-                return False
-
-            elif self.__ADVP():
-                if self.__V_lnln():
-                    return True
-                return False
+                return self.__V_lnln()
 
             return False
-        
         else:
             return False
 
     def __V_lnln(self):
+        '''
+        V’’ -> NP V’’
+        V’’ -> PP V’’
+        V’’ -> ADVP V’’
+        V’’ -> ɛ
+        '''
         # print("V''")
 
         if self.__is_EOF():
             return True
 
-        elif self.__NP():
+        elif self.__NP() \
+             or self.__PP() \
+             or self.__ADVP():
+
             return self.__V_lnln()
 
-        elif self.__PP():
-            return self.__V_lnln()
-
-        elif self.__ADVP():
-            return self.__V_lnln()
-        
         return True
 
     def __VB(self):
+        '''
+        VB -> v
+        VB -> v pcp
+        '''
         # print("VB")
+
         if self.__next()[1] == "V":
             if self.__next()[1] != "PCP":
                 self.__back()
@@ -300,30 +343,41 @@ class SyntacticAnalyser:
             return False
 
     def __ADVP(self):
+        '''
+        ADVP -> ADV’ ADVP’
+        ADVP -> ADV’ PP ADVP’
+        '''
         # print("ADVP")
+
         if self.__ADV_ln():
             if self.__ADVP_ln():
                 return True
             elif self.__PP():
                 return self.__ADVP_ln()
-            
-            return False
 
-        else:
-            return False
-    
+        return False
+
     def __ADVP_ln(self):
+        '''
+        ADVP’ -> ADV’ ADVP’
+        ADVP’ -> ɛ
+        '''
         # print("ADVP'")
+
         if self.__is_EOF():
             return True
 
         elif self.__ADV_ln():
             return self.__ADVP_ln()
-        
+
         return True
 
     def __ADV_ln(self):
+        '''
+        ADV’ -> adv ADV’’
+        '''
         # print("ADV'")
+
         if self.__next()[1] == "ADV":
             if self.__ADV_lnln():
                 return True
@@ -333,9 +387,14 @@ class SyntacticAnalyser:
         else:
             self.__back()
             return False
-    
+
     def __ADV_lnln(self):
+        '''
+        ADV’’ -> PP ADV’’
+        ADV’’ -> ɛ
+        '''
         # print("ADV''")
+
         if self.__is_EOF():
             return True
 
@@ -348,4 +407,4 @@ if __name__ == "__main__":
     import sys
     from tagger import Tagger
 
-    # print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))
+    print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))

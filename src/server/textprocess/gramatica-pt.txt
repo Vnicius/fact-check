@@ -1,0 +1,66 @@
+S -> NP VP 
+S -> VP NP 
+S -> VP 
+S -> ADVP S 
+
+NP -> art N’
+NP -> prosub N’ 
+NP -> proadj N’ 
+NP -> num N’
+NP -> N’ 
+NP -> proadj NP 
+
+N’ -> pro N’’
+N’ -> n N’’
+N’ -> nprop N’’
+N’ -> AP N’ N’’
+
+N’’ -> AP N’’ 
+N’’ -> PP N’’
+N’’ -> ɛ
+
+AP -> ADJ’ ADVP 
+AP -> ADJ’ PP 
+AP -> ADJ’ 
+AP -> ADVP ADJ’ 
+
+ADJ’ -> adj ADJ’’ 
+ADJ’ -> ADVP ADJ’ ADJ’’ 
+
+ADJ’’ -> ADVP ADJ’’ 
+ADJ’’ -> PP ADJ’’
+ADJ’’ -> ɛ
+
+PP -> prep NP 
+PP -> prep ADVP 
+
+VP -> V’
+VP -> V’ PP 
+VP -> V’ ADVP
+VP -> ADVP V’
+
+V’ -> ADVP V’ V’’ 
+V’ -> VB V’’
+V’ -> VB NP V’’
+V’ -> VB PP V’’ 
+V’ -> VB AP V'’
+V’ -> VB ADVP V’’
+
+V’’ -> NP V’’  
+V’’ -> PP V’’ 
+V’’ -> ADVP V’’
+V’’ -> ɛ
+
+VB -> v
+VB -> v pcp
+
+ADVP -> ADV’ ADVP’
+ADVP -> ADV’ PP ADVP’
+
+ADVP’ -> ADV’ ADVP’
+ADVP’ -> ɛ  
+
+ADV’ -> adv ADV’’
+
+ADV’’ -> PP ADV’’
+ADV’’ -> ɛ

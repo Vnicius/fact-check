@@ -9,6 +9,9 @@ import json
 
 
 def process(claim):
+    '''
+    Process the claim returning a list of snippets on the web
+    '''
     sentences = SentenceGenerator().generate_sentences(claim)
     facts = []
     matches = 0
@@ -18,7 +21,7 @@ def process(claim):
     for index, sentence in enumerate(sentences):
         matches, snippets = GoogleSearch().search(sentence)
         facts.append(Fact(index + 1, sentence,
-                            matches, snippets))
+                          matches, snippets))
 
     for index, fact in enumerate(facts):
         if index != len(facts)-1:

@@ -4,6 +4,9 @@
 from textprocess.word import Word
 
 class Verb(Word):
+    '''
+    Class with the information of the verb
+    '''
     def __init__(self, word, word_class):
         super(Verb, self).__init__(word, word_class)
         self.infinitive = ""

@@ -2,6 +2,9 @@
 # -*- coding:utf-8 -*-
 
 class Word:
+    '''
+    Class with the information of all words
+    '''
     def __init__(self, word, word_class):
         self.word = word
         self.synonyms = []

@@ -2,6 +2,9 @@
 # -*- coding:utf-8 -*-
 
 class Snippet:
+    '''
+    Class with main informations of a snippet
+    '''
     def __init__ (self, _id, title, text, url):
         self._id = _id
         self.title = title

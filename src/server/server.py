@@ -12,7 +12,7 @@ CORS(app)
 
 @app.route("/snippets", methods = ['POST'])
 def get_snippets():
-    print (request.get_json()["claim"])
+    print(request.get_json()["claim"])
 
     return process(request.get_json()["claim"])
     # with open("teste.json") as js:

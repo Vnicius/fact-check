@@ -5,10 +5,16 @@ import os
 import nlpnet
 
 class Tagger:
+    '''
+    POS-Tagger for portuguese language
+    '''
     def __init__(self):
-        self.tagger = nlpnet.POSTagger(os.path.dirname(os.path.realpath(__file__))+"/pos-pt", language="pt")
+        self.tagger = nlpnet.POSTagger(os.path.dirname(os.path.realpath(__file__)) + "/pos-pt", language="pt")
 
     def tag(self, text):
+        '''
+        Return the tagged text
+        '''
         return self.tagger.tag(text)[0]
 
 if __name__ == "__main__":
