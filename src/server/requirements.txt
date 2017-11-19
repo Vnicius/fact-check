@@ -2,5 +2,5 @@ Flask==0.10.1
 requests==2.18.4
 Flask_Cors==3.0.3
 beautifulsoup4==4.6.0
-nlpnet==1.2.2
 pymongo==3.5.1
+nlpnet==1.2.2
