@@ -93,7 +93,11 @@ class SentenceGenerator():
         result = ""
 
         for word in array_words:
-            result += word.word + " "
+            if word.word_class == "PU":
+                result = result[:-1]
+                result += word.word + " "
+            else:
+                result += word.word + " "
 
         result = result[:-1]
 
