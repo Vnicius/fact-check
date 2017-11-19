@@ -172,9 +172,6 @@ class SyntacticAnalyser:
         if self.__is_EOF():
             return True
 
-        elif self.__N_ln():
-            return True
-
         elif self.__AP() or self.__PP():
             return self.__N_lnln()
 

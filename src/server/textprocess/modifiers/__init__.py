@@ -1,3 +1,3 @@
 from textprocess.modifiers.modifiers import Modifiers
 from textprocess.modifiers.synonymmodifier import SynonymModifier
-from textprocess.modifiers.inverserordermodifier import InverseOrderModifier
+from textprocess.modifiers.indirectordermodifier import IndirectOrderModifier

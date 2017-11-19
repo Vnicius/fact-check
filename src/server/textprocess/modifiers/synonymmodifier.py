@@ -4,10 +4,25 @@
 from copy import deepcopy
 
 class SynonymModifier():
+    '''
+    Class to change the words by him synonyms
+    '''
     def __init__(self, synonym_number=1):
+        '''
+        Params
+        ---
+        synonym_number: the synonym in the array of synonyms in the each object 'Word' 
+        '''
         self.synonym_number = synonym_number
 
     def modify_sentence(self, words):
+        '''
+        Return the setence with the synonym words
+
+        Params
+        ---
+        words: list of objects 'Word'
+        '''
         aux = deepcopy(words)
         no_replaces = True
 

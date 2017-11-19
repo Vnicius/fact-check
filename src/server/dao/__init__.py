@@ -1,1 +1,1 @@
-from dao.mongodb import FactsDB
+from dao.factsdb import FactsDb
