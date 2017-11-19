@@ -29,7 +29,10 @@ class SyntacticAnalyser:
 
             return aux
 
-        except:
+        except IndexError:
+            return ["EOF", "EOF"]
+        
+        except ValueError:
             return ["EOF", "EOF"]
 
     def __back(self):
@@ -199,23 +202,18 @@ class SyntacticAnalyser:
 
     def __ADJ_ln(self):
         '''
-        ADJ’ -> adj ADJ’’
-        ADJ’ -> ADVP ADJ’ ADJ’’
+        ADJ’ -> adj ADJ’’ ADJ’’’
         '''
         # print("ADJ'")
 
         if self.__next()[1] == "ADJ":
-            if self.__ADJ_lnln():
+            if self.__ADJ_lnln() or self.__ADJ_lnlnln():
                 return True
 
             self.__back()
             return False
         else:
             self.__back()
-
-        if self.__ADVP():
-            if self.__ADJ_ln():
-                return self.__ADJ_lnln()
 
         return False
 
@@ -233,6 +231,20 @@ class SyntacticAnalyser:
         elif self.__ADVP() or self.__PP():
             return self.__ADJ_lnln()
 
+        return True
+
+    def __ADJ_lnlnln(self):
+        '''
+        ADJ’’’ -> ADVP ADJ’’ ADJ‘’’
+        ADJ’’’ -> ɛ
+        '''
+        # print("AJ'''")
+        if self.__is_EOF():
+            return True
+        elif self.__ADVP():
+            if self.__ADJ_ln():
+                return self.__ADJ_lnlnln()
+            return False
         return True
 
     def __PP(self):
