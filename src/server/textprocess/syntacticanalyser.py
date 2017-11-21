@@ -207,8 +207,8 @@ class SyntacticAnalyser:
         # print("ADJ'")
 
         if self.__next()[1] == "ADJ":
-            if self.__ADJ_lnln() or self.__ADJ_lnlnln():
-                return True
+            if self.__ADJ_lnln():
+                return self.__ADJ_lnlnln()
 
             self.__back()
             return False
@@ -242,7 +242,7 @@ class SyntacticAnalyser:
         if self.__is_EOF():
             return True
         elif self.__ADVP():
-            if self.__ADJ_ln():
+            if self.__ADJ_lnln():
                 return self.__ADJ_lnlnln()
             return False
         return True
