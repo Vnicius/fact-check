@@ -38,6 +38,7 @@ class SentenceGenerator():
             claim_sets.append(self.__claim_set(sentence))
 
         # concat the modifieds sentences
+        # only for mutiply sentences
         for index, _ in enumerate(claim_sets[0]):
             try:
                 for index_claim, _ in enumerate(claim_sets):
@@ -47,6 +48,8 @@ class SentenceGenerator():
                 claim = []
             except IndexError:
                 break
+
+        print(final_claim_set)
 
         return final_claim_set
 
@@ -122,6 +125,7 @@ class SentenceGenerator():
         aux_sentence = ""   # auxiliar string
 
         # analyze the syntax of the original sentence
+        print("Análise sintática da frase original...")
         if not analyser.analysis(tagged_sentence):
             return []
 

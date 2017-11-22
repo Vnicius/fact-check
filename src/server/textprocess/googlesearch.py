@@ -19,7 +19,7 @@ class GoogleSearch:
         #self.mode = "&tbm=nws"     # for results in the tab "news"
         self.mode = "&sorce=lmns"   # for general results
         self.soup = None
-        self.__limit = 4
+        self.__limit = 3
 
     def search(self, text):
         '''

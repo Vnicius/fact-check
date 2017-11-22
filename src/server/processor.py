@@ -14,12 +14,14 @@ def process(claim):
     '''
     Process the claim returning a list of snippets on the web
     '''
+    print("Gerando novas sentencas...")
     sentences = SentenceGenerator().generate_sentences(claim)
     facts = []
     matches = 0
     snippets = []
     ret = "{\"response\":["
 
+    print("Pesquisando sentenças...")
     for index, sentence in enumerate(sentences):
         matches, snippets = GoogleSearch().search(sentence)
 

@@ -14,7 +14,7 @@ class IndirectOrderModifier():
         ---
         pivot: is the index that nominal and verbal parts
         '''
-        self.pivot = pivot + 1
+        self.pivot = pivot
 
     def modify_sentence(self, words):
         '''
