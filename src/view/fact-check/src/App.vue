@@ -56,10 +56,15 @@ export default{
         this.full = false
         this.wait = true
         this.$http.post('http://localhost:5000/snippets', {claim: this.claim}).then(response => {
-          console.log(JSON.parse(response.bodyText))
-          this.snippets = JSON.parse(response.bodyText).response
-          this.wait = false
-          this.full = true
+          try {
+            console.log(JSON.parse(response.bodyText))
+            this.snippets = JSON.parse(response.bodyText).response
+            this.wait = false
+            this.full = true
+          } catch (err) {
+            alert('Frase incorreta!')
+            this.wait = false
+          }
         }, response => {
           this.wait = false
           alert('ERRO')
