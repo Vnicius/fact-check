@@ -2,18 +2,19 @@
 # -*- coding:utf-8 -*-
 
 from copy import deepcopy
+import random
 
 class SynonymModifier():
     '''
     Class to change the words by him synonyms
     '''
-    def __init__(self, synonym_number=1):
+    def __init__(self, probability=1):
         '''
         Params
         ---
-        synonym_number: the synonym in the array of synonyms in the each object 'Word' 
+        probability: the probability to change the the words by synonyms
         '''
-        self.synonym_number = synonym_number
+        self.probability = probability
 
     def modify_sentence(self, words):
         '''
@@ -24,14 +25,10 @@ class SynonymModifier():
         words: list of objects 'Word'
         '''
         aux = deepcopy(words)
-        no_replaces = True
 
         for word in aux:
-            if len(word.synonyms) >= self.synonym_number:
-                word.word = word.synonyms[self.synonym_number - 1]
-                no_replaces = False
-
-        if no_replaces:
-            return []
+            if random.random() < self.probability:
+                if word.synonyms:
+                    word.word = word.synonyms[random.randint(0, len(word.synonyms) - 1)]
         
         return aux

@@ -6,7 +6,7 @@ from textprocess.modifiers.indirectordermodifier import IndirectOrderModifier
 
 class Modifiers():
     def __init__(self, pivot):
-        self.modifiers = [SynonymModifier(1), SynonymModifier(2), IndirectOrderModifier(pivot)]
+        self.modifiers = [SynonymModifier(1), SynonymModifier(0.5), IndirectOrderModifier(pivot)]
 
     def get_modifiers(self):
         return self.modifiers

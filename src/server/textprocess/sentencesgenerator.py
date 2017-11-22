@@ -135,12 +135,14 @@ class SentenceGenerator():
         # apply the modifiers in the original sentence
         for mod in sentence_modifiers.get_modifiers():
             aux_set = mod.modify_sentence(words_set)
-            if aux_set:
-                aux_sentence = self.__array2sentence(aux_set)
+            aux_sentence = self.__array2sentence(aux_set)
 
-                # check if sytax of the modified sentence is correct
-                if analyser.analysis(tagger.tag(aux_sentence)):
-                    claim_set.append(aux_sentence)
+            if aux_sentence in claim_set:
+                continue
+
+            # check if sytax of the modified sentence is correct
+            if analyser.analysis(tagger.tag(aux_sentence)):
+                claim_set.append(aux_sentence)
 
         return claim_set
 
