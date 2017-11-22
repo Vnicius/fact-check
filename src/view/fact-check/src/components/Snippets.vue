@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="app container">
-            <h5 class="title">"{{ title }}" - {{ matches }} resultados</h5>
+            <h5 class="title">"{{ title }}" - {{ matches }}</h5>
             <ul>
               <li v-for="snippet in snippets"
                   v-bind:key="snippet._id">
