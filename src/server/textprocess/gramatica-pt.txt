@@ -1,3 +1,8 @@
+*ignorar KC, KS, PU e CUR
+
+Não terminais: {S, NP, VP, ADVP, ADVP’, N’, N’’, AP, ADJ’, ADJ’’, ADJ‘’’, PP, V’, V’’, VB, ADV’}
+Terminais: {art, prosub, proadj, num, pro…, n, nprop, adj, prep, v, pcp, adv}
+
 S -> NP VP 
 S -> VP NP 
 S -> VP 
@@ -10,7 +15,7 @@ NP -> num N’
 NP -> N’ 
 NP -> proadj NP 
 
-N’ -> pro N’’
+N’ -> pro... N’’
 N’ -> n N’’
 N’ -> nprop N’’
 N’ -> AP N’ N’’
@@ -24,12 +29,14 @@ AP -> ADJ’ PP
 AP -> ADJ’ 
 AP -> ADVP ADJ’ 
 
-ADJ’ -> adj ADJ’’ 
-ADJ’ -> ADVP ADJ’ ADJ’’ 
+ADJ’ -> adj ADJ’’ ADJ’’’
 
 ADJ’’ -> ADVP ADJ’’ 
 ADJ’’ -> PP ADJ’’
 ADJ’’ -> ɛ
+
+ADJ’’’ -> ADVP ADJ’’ ADJ‘’’
+ADJ’’’ -> ɛ
 
 PP -> prep NP 
 PP -> prep ADVP 
@@ -61,6 +68,5 @@ ADVP’ -> ADV’ ADVP’
 ADVP’ -> ɛ  
 
 ADV’ -> adv ADV’’
-
 ADV’’ -> PP ADV’’
 ADV’’ -> ɛ

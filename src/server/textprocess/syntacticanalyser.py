@@ -416,4 +416,4 @@ if __name__ == "__main__":
     import sys
     from tagger import Tagger
 
-    print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))
+    # print(SyntacticAnalyser().analysis(Tagger().tag(sys.argv[1])))

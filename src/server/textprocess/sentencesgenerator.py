@@ -131,11 +131,13 @@ class SentenceGenerator():
 
         sentence_modifiers = Modifiers(analyser.pivot)
 
+        print("Sinônimos...")
         # query extra informations of words with the tags 'V', 'N' and 'ADJ'
         for word in words_set:
             if word.word_class in ["V", "N", "ADJ"]:
                 word = qw.query(word)
 
+        print("Modificando frase original...")
         # apply the modifiers in the original sentence
         for mod in sentence_modifiers.get_modifiers():
             aux_set = mod.modify_sentence(words_set)
